@@ -31,9 +31,15 @@ export class GameComponent implements OnInit {
     });
   }
   setNames(): void{
-    this.names = this.items.map((item): Name => ({id: item.id, name: item.name}));
+    this.names = this.items.map((item): Name => ({id: item.id, value: item.name}));
     this.names.sort();
   }
+
+
+  clickCard(id: number): void{
+    this.names[0].id === id ? console.log('YEPPAAA') : console.log('Faill');
+  }
+
 
   private capitalize(s: string): string {
     if (typeof s !== 'string') {  return ''; }

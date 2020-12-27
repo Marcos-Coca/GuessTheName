@@ -1,6 +1,5 @@
 {
-  
-  "eslint.format.enable": true,
   "prettier.enable": true,
-  "prettier.bracketSpacing": true
+  "prettier.bracketSpacing": true,
+  "prettier.proseWrap": "always"
 }

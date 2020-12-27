@@ -5,8 +5,7 @@
         <app-names *ngFor="let name of names" [name]="name">
         </app-names>
     </div>
-    <figure *ngFor="let item of items">
-        <img [src]="item.photoUrl" [alt]="item.name">
-        <figcaption>{{item.name}}</figcaption>
-    </figure>
+    <main>
+        <app-card *ngFor="let item of items" [item]="item" (cardClicked)="clickCard($event)"></app-card>
+    </main>
 </div>

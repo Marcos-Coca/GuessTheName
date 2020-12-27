@@ -1,1 +1,6 @@
-<p>card works!</p>
+<div (click)="selectCard()">
+    <figure>
+        <img [src]="item.photoUrl" [alt]="item.name">
+        <figcaption>{{item.name}}</figcaption>
+    </figure>
+</div>

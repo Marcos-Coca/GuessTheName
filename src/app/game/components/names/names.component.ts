@@ -12,7 +12,7 @@ import { Name } from '@game/models/name.model';
 })
 export class NamesComponent implements OnInit {
 
-  @Input() name: Name = {} as Name;
+  @Input() name!: Name;
 
   constructor() { }
 
