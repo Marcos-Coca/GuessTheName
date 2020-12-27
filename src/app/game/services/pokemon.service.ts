@@ -1,30 +1,42 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
-import { toArray } from 'rxjs/operators';
+import { Observable, from } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
-import { GameModule } from '@app/game/game.module';
 import { Pokemon } from '../models/pokemon.model';
-import { PokemonResponse } from '../models/pokemon-response.model';
+
+
+interface RandomNumbers{
+  length: number;
+  max: number;
+  min?: number;
+}
 
 @Injectable({
-  providedIn: GameModule
+  providedIn: 'root',
 })
 export class PokemonService {
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  getRandomPokemons(amount: number): Observable<Pokemon>{
+    const pokemonsId = this.generateRandomNumbers({length: amount, max: 151});
 
-  getPokemons(): Observable<Pokemon[]>{
-    return this.http
-    .get<PokemonResponse>('https://pokeapi.co/api/v2/pokemon/?limit=151&')
-    .pipe(
-      mergeMap(({url}) => this.http.get<Pokemon>(url)),
-      toArray()
-    );
+    return from(pokemonsId).pipe(
+      mergeMap(
+        (id) => this.http.get<Pokemon>(`https://pokeapi.co/api/v2/pokemon/${id}`)));
   }
 
+  private generateRandomNumbers({length, max, min = 1}: RandomNumbers): number[]{
+    const numbers = new Set<number>();
+
+    while (numbers.size < length)
+    {
+      const value = Math.floor(Math.random() * (max - min + 1)) + min;
+      numbers.add(value);
+    }
+
+    return Array.from(numbers);
+
+  }
 }

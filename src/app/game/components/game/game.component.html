@@ -1,1 +1,12 @@
 <p>game works!</p>
+
+<div>
+    <div>
+        <app-names *ngFor="let name of names" [name]="name">
+        </app-names>
+    </div>
+    <figure *ngFor="let item of items">
+        <img [src]="item.photoUrl" [alt]="item.name">
+        <figcaption>{{item.name}}</figcaption>
+    </figure>
+</div>
