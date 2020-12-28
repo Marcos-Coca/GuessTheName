@@ -1,5 +1,6 @@
 {
   "prettier.enable": true,
+  "prettier.useEditorConfig": true,
   "prettier.bracketSpacing": true,
   "prettier.proseWrap": "always"
 }

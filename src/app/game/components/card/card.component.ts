@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
-import { Item } from '@app/game/models/item.model';
+import { Card } from '@app/game/models/card.model';
 
 @Component({
   selector: 'app-card',
@@ -9,8 +9,8 @@ import { Item } from '@app/game/models/item.model';
 })
 export class CardComponent implements OnInit {
 
-  @Input() item!: Item;
-  @Output() cardClicked = new EventEmitter<number>();
+  @Input() card!: Card;
+  @Output() cardClicked = new EventEmitter<string>();
 
   constructor() { }
 
@@ -18,8 +18,7 @@ export class CardComponent implements OnInit {
   }
 
   selectCard(): void{
-    console.log('card clicked');
-    this.cardClicked.emit(this.item.id);
+    this.cardClicked.emit(this.card.name);
   }
 
 }

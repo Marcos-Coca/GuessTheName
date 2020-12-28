@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { ChangeDetectionStrategy, Input } from '@angular/core';
 
-import { Name } from '@game/models/name.model';
+import { Card } from '@game/models/card.model';
 
 
 @Component({
@@ -10,13 +10,21 @@ import { Name } from '@game/models/name.model';
   styleUrls: ['./names.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NamesComponent implements OnInit {
+export class NamesComponent implements OnInit, OnChanges {
 
-  @Input() name!: Name;
+  @Input() cards: Card[] = [];
+  names: string[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+  ngOnChanges(): void{
+    this.setNames();
+  }
+  setNames(): void{
+    this.names = this.cards.map((card): string => card.name);
+    this.names.sort();
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Item } from '@app/game/models/item.model';
-import { Name } from '@app/game/models/name.model';
+import { Card } from '@game/models/card.model';
+import { Item } from '@game/models/item.model';
 import { ItemsAdapterService } from '@game/services/items-adapter.service';
 
 @Component({
@@ -11,8 +11,8 @@ import { ItemsAdapterService } from '@game/services/items-adapter.service';
 })
 export class GameComponent implements OnInit {
 
-  items: Item[] = [];
-  names: Name[] = [];
+  cards: Card[] = [];
+  cardsRecord = new Map<number, Card>();
 
   constructor(
     private itemsAdapterService: ItemsAdapterService
@@ -26,20 +26,26 @@ export class GameComponent implements OnInit {
     this.itemsAdapterService
     .getItems('1')
     .subscribe((items) => {
-      this.items = items.map((item) => ({...item, name: this.capitalize(item.name)}));
-      this.setNames();
+      items.forEach((item) => this.setCard(item));
     });
   }
-  setNames(): void{
-    this.names = this.items.map((item): Name => ({id: item.id, value: item.name}));
-    this.names.sort();
+
+  clickCard(name: string): void{
+    // this.names[0].id === id ? console.log('YEPPAAA') : console.log('Faill');
+    console.log(name);
   }
 
+  private setCard({id, name, photoUrl}: Item): void{
+    const card: Card = {
+      photoUrl,
+      failed : false,
+      resolved: false,
+      name: this.capitalize(name),
+    };
 
-  clickCard(id: number): void{
-    this.names[0].id === id ? console.log('YEPPAAA') : console.log('Faill');
+    this.cards.push(card);
+    this.cardsRecord.set(id, card);
   }
-
 
   private capitalize(s: string): string {
     if (typeof s !== 'string') {  return ''; }

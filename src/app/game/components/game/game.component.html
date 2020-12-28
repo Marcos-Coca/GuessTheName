@@ -2,10 +2,9 @@
 
 <div>
     <div>
-        <app-names *ngFor="let name of names" [name]="name">
-        </app-names>
+        <app-names [cards]="cards"> </app-names>
     </div>
     <main>
-        <app-card *ngFor="let item of items" [item]="item" (cardClicked)="clickCard($event)"></app-card>
+        <app-card *ngFor="let card of cards" [card]="card" (cardClicked)="clickCard($event)"></app-card>
     </main>
 </div>
