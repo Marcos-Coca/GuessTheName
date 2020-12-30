@@ -1,10 +1,14 @@
 <p>game works!</p>
 
 <div>
-    <div>
-        <app-names [cards]="cards"> </app-names>
-    </div>
-    <main>
-        <app-card *ngFor="let card of cards" [card]="card" (cardClicked)="clickCard($event)"></app-card>
-    </main>
+  <div>
+    <app-names [items]="items"> </app-names>
+  </div>
+  <main>
+    <app-cards
+      [items]="items"
+      [updatedCard]="updatedCard"
+      (cardClicked)="clickCard($event)"
+    ></app-cards>
+  </main>
 </div>

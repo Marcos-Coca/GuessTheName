@@ -11,10 +11,11 @@ import { HomeComponent } from './pages/home/home.component';
 import { PokemonService } from './services/pokemon.service';
 import { ItemsAdapterService } from './services/items-adapter.service';
 import { NamesComponent } from './components/names/names.component';
+import { GameControlComponent } from './components/game-control/game-control.component';
 
 
 @NgModule({
-  declarations: [GameComponent, CardsComponent, CardComponent, HomeComponent, NamesComponent],
+  declarations: [GameComponent, CardsComponent, CardComponent, HomeComponent, NamesComponent, GameControlComponent],
   imports: [
     CommonModule,
     GameRoutingModule,

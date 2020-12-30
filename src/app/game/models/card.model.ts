@@ -1,6 +1,8 @@
+import { CardItem } from '@game/models/card-item.model';
+import { CardStatus } from '@game/models/card-status.model';
+
 export interface Card {
-    name: string;
-    photoUrl: string;
-    resolved: boolean;
-    failed: boolean;
+  id: number;
+  item: CardItem;
+  status: CardStatus;
 }

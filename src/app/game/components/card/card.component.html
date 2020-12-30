@@ -1,6 +1,6 @@
 <div (click)="selectCard()">
-    <figure>
-        <img [src]="card.photoUrl" [alt]="card.name">
-        <figcaption>{{card.name}}</figcaption>
-    </figure>
+  <figure>
+    <img [src]="card.item.photoUrl" [alt]="card.item.name" />
+    <figcaption>{{ card.item.name }}</figcaption>
+  </figure>
 </div>

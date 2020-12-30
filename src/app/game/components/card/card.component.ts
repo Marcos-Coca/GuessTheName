@@ -1,24 +1,36 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  SimpleChanges,
+} from '@angular/core';
 
-import { Card } from '@app/game/models/card.model';
-
+import { Card } from '@game/models/card.model';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+  styleUrls: ['./card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CardComponent implements OnInit {
-
+export class CardComponent implements OnInit, OnChanges {
   @Input() card!: Card;
-  @Output() cardClicked = new EventEmitter<string>();
 
-  constructor() { }
+  @Output() cardClicked = new EventEmitter<Card>();
 
-  ngOnInit(): void {
+  constructor() {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.item) {
+    }
+    console.log(changes);
   }
 
-  selectCard(): void{
-    this.cardClicked.emit(this.card.name);
-  }
+  ngOnInit(): void {}
 
+  selectCard(): void {
+    this.cardClicked.emit(this.card);
+  }
 }
