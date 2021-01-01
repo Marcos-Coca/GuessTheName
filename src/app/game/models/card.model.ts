@@ -1,8 +1,7 @@
-import { CardItem } from '@game/models/card-item.model';
+import { Item } from '@game/models/item.model';
 import { CardStatus } from '@game/models/card-status.model';
 
 export interface Card {
-  id: number;
-  item: CardItem;
+  item: Item;
   status: CardStatus;
 }

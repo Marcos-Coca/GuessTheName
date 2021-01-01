@@ -2,35 +2,31 @@ import {
   Component,
   Input,
   OnInit,
-  OnChanges,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
-  SimpleChanges,
 } from '@angular/core';
 
+import { CardService } from '@game/services/card.service';
 import { Card } from '@game/models/card.model';
+import { first } from 'rxjs/operators';
+
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CardComponent implements OnInit, OnChanges {
+export class CardComponent implements OnInit {
   @Input() card!: Card;
 
-  @Output() cardClicked = new EventEmitter<Card>();
-
-  constructor() {}
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.item) {
-    }
-    console.log(changes);
-  }
+  constructor(private cardService: CardService) {}
 
   ngOnInit(): void {}
 
   selectCard(): void {
-    this.cardClicked.emit(this.card);
+    this.cardService.cardStatus$.pipe(first()).subscribe((newStatus) => {
+      this.card.status = newStatus;
+      console.log('CARD ', this.card);
+    });
+    this.cardService.selectCard(this.card);
   }
 }
