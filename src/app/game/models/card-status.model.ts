@@ -1,4 +1,5 @@
 export interface CardStatus {
-  resolved: boolean;
   failed: boolean;
+  resolved: boolean;
+  incorrect: boolean;
 }

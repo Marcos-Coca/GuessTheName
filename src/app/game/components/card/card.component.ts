@@ -25,7 +25,6 @@ export class CardComponent implements OnInit {
   selectCard(): void {
     this.cardService.cardStatus$.pipe(first()).subscribe((newStatus) => {
       this.card.status = newStatus;
-      console.log('CARD ', this.card);
     });
     this.cardService.selectCard(this.card);
   }

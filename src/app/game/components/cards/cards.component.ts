@@ -37,6 +37,7 @@ export class CardsComponent implements OnInit, OnChanges {
       status: {
         failed: false,
         resolved: false,
+        incorrect: false,
       },
     }));
   }
