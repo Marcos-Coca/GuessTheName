@@ -5,10 +5,10 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { CardService } from '@game/services/card.service';
-import { Card } from '@game/models/card.model';
 import { first } from 'rxjs/operators';
 
+import { Card } from '@game/models/card.model';
+import { CardService } from '@game/services/card.service';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',

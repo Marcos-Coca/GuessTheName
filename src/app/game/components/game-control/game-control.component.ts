@@ -5,6 +5,8 @@ import {
   OnChanges,
   Input,
   SimpleChanges,
+  ChangeDetectorRef,
+  ViewRef,
 } from '@angular/core';
 
 import { Card } from '@game/models/card.model';
@@ -21,12 +23,17 @@ import { CardStatus } from '@game/models/card-status.model';
 export class GameControlComponent implements OnInit, OnChanges {
   @Input() items: Item[] = [];
 
-  shuffledItems: Item[] = [];
   fails = 0;
   correct = 0;
   totalFails = 0;
 
-  constructor(private cardService: CardService) {}
+  currentItem?: Item;
+  shuffledItems: Item[] = [];
+
+  constructor(
+    private cardService: CardService,
+    private cdRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.onClickCard();
@@ -41,30 +48,42 @@ export class GameControlComponent implements OnInit, OnChanges {
 
   validateCard(card: Card): CardStatus {
     const status = card.status;
-    const isValid = card.item.id === this.shuffledItems[this.correct].id;
+    const isValid = card.item.id === this.currentItem?.id;
 
     if (isValid) {
       this.fails = 0;
       this.correct += 1;
-      return { ...status, resolved: true };
-    }
-
-    if (this.fails >= 3) {
+      this.setCurrentItem();
+      status.resolved = true;
+    } else if (this.fails >= 3) {
       this.fails += 1;
       this.totalFails += 1;
-      return { ...status, failed: true };
+      status.failed = true;
+    } else {
+      status.incorrect = true;
     }
 
-    return { ...status, incorrect: true };
+    return status;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.items = changes.items?.currentValue;
     this.shuffleItems([...this.items]);
+    this.setCurrentItem();
   }
 
   shuffleItems(items: Item[]): void {
     this.shuffledItems = items.sort(() => Math.random() - 0.5);
-    console.log(this.shuffledItems);
+  }
+
+  setCurrentItem(): void {
+    this.currentItem = this.shuffledItems[this.correct];
+    this.applyChanges();
+  }
+
+  private applyChanges(): void {
+    if (this.cdRef && !(this.cdRef as ViewRef).destroyed) {
+      this.cdRef.detectChanges();
+    }
   }
 }

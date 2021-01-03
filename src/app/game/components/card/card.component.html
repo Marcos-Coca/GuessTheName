@@ -1,7 +1,6 @@
 <div (click)="selectCard()">
-  <figure>
+  <figure [appBackground]="card.status">
     <img [src]="card.item.photoUrl" [alt]="card.item.name" />
     <figcaption>{{ card.item.name }}</figcaption>
-    <h5>Failed {{ card.status.failed }}</h5>
   </figure>
 </div>

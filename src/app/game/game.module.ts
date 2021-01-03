@@ -12,18 +12,19 @@ import { PokemonService } from './services/pokemon.service';
 import { ItemsAdapterService } from './services/items-adapter.service';
 import { NamesComponent } from './components/names/names.component';
 import { GameControlComponent } from './components/game-control/game-control.component';
-
+import { BackgroundDirective } from './directives/background.directive';
 
 @NgModule({
-  declarations: [GameComponent, CardsComponent, CardComponent, HomeComponent, NamesComponent, GameControlComponent],
-  imports: [
-    CommonModule,
-    GameRoutingModule,
-    HttpClientModule
+  declarations: [
+    GameComponent,
+    CardsComponent,
+    CardComponent,
+    HomeComponent,
+    NamesComponent,
+    GameControlComponent,
+    BackgroundDirective,
   ],
-  providers: [
-    ItemsAdapterService,
-    PokemonService
-  ]
+  imports: [CommonModule, GameRoutingModule, HttpClientModule],
+  providers: [ItemsAdapterService, PokemonService],
 })
-export class GameModule { }
+export class GameModule {}
