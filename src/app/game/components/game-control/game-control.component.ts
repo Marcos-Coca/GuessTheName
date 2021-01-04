@@ -30,6 +30,9 @@ export class GameControlComponent implements OnInit, OnChanges {
   currentItem?: Item;
   shuffledItems: Item[] = [];
 
+  minutes = 0;
+  seconds = 0;
+
   constructor(
     private cardService: CardService,
     private cdRef: ChangeDetectorRef
@@ -38,6 +41,8 @@ export class GameControlComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.onClickCard();
   }
+
+  startTimer(): void {}
 
   onClickCard(): void {
     this.cardService.card$.subscribe((card: Card) => {
@@ -60,9 +65,9 @@ export class GameControlComponent implements OnInit, OnChanges {
       this.totalFails += 1;
       status.failed = true;
     } else {
+      this.fails += 1;
       status.incorrect = true;
     }
-
     return status;
   }
 

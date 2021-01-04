@@ -14,19 +14,30 @@ import { CardStatus } from '@game/models/card-status.model';
   selector: '[appBackground]',
 })
 export class BackgroundDirective implements OnInit, OnChanges {
-  @Input('appBackground') status!: CardStatus;
+  @Input('appBackground') status?: CardStatus;
+
+  @Input() defaultColor = 'white';
 
   constructor(private elementRef: ElementRef, private rerender: Renderer2) {}
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.status.failed) {
-      this.setBgColor('red');
-    }
-    if (this.status.resolved) {
-      this.setBgColor('green');
-    }
+    const bgColor = this.selectBackground();
+    this.setBgColor(bgColor);
+    console.log(changes);
   }
 
   ngOnInit(): void {}
+
+  selectBackground(): string {
+    if (this.status?.incorrect) {
+      return 'red';
+    }
+
+    if (this.status?.resolved) {
+      return 'green';
+    }
+
+    return this.defaultColor;
+  }
 
   setBgColor(color: string): void {
     console.log(color);
