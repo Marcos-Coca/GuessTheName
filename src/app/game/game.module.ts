@@ -13,6 +13,7 @@ import { ItemsAdapterService } from './services/items-adapter.service';
 import { NamesComponent } from './components/names/names.component';
 import { GameControlComponent } from './components/game-control/game-control.component';
 import { BackgroundDirective } from './directives/background.directive';
+import { MinuteSecondsPipe } from './pipes/minute-seconds.pipe';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { BackgroundDirective } from './directives/background.directive';
     NamesComponent,
     GameControlComponent,
     BackgroundDirective,
+    MinuteSecondsPipe,
   ],
   imports: [CommonModule, GameRoutingModule, HttpClientModule],
   providers: [ItemsAdapterService, PokemonService],

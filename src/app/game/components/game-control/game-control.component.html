@@ -1,3 +1,6 @@
-<div *ngIf="currentItem">
-  <h3>Click on {{ currentItem.name }}</h3>
+<div>
+  <h3>
+    <span>{{ seconds | minuteSeconds }} </span>
+    <span *ngIf="currentItem">Click on {{ currentItem.name }}</span>
+  </h3>
 </div>

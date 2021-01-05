@@ -3,6 +3,7 @@ import {
   Component,
   OnInit,
   OnChanges,
+  OnDestroy,
   Input,
   SimpleChanges,
   ChangeDetectorRef,
@@ -20,7 +21,7 @@ import { CardStatus } from '@game/models/card-status.model';
   styleUrls: ['./game-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GameControlComponent implements OnInit, OnChanges {
+export class GameControlComponent implements OnInit, OnChanges, OnDestroy {
   @Input() items: Item[] = [];
 
   fails = 0;
@@ -30,8 +31,8 @@ export class GameControlComponent implements OnInit, OnChanges {
   currentItem?: Item;
   shuffledItems: Item[] = [];
 
-  minutes = 0;
   seconds = 0;
+  timer: any;
 
   constructor(
     private cardService: CardService,
@@ -40,9 +41,19 @@ export class GameControlComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.onClickCard();
+    this.startTimer();
   }
 
-  startTimer(): void {}
+  startTimer(): void {
+    this.timer = setInterval(() => {
+      this.seconds += 1;
+      this.applyChanges();
+    }, 200);
+  }
+
+  stopTimer(): void {
+    clearInterval(this.timer);
+  }
 
   onClickCard(): void {
     this.cardService.card$.subscribe((card: Card) => {
@@ -83,7 +94,13 @@ export class GameControlComponent implements OnInit, OnChanges {
 
   setCurrentItem(): void {
     this.currentItem = this.shuffledItems[this.correct];
+    if (!this.currentItem) {
+      this.stopTimer();
+    }
     this.applyChanges();
+  }
+  ngOnDestroy(): void {
+    this.stopTimer();
   }
 
   private applyChanges(): void {
