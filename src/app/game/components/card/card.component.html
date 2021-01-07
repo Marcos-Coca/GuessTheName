@@ -1,6 +1,5 @@
-<div (click)="selectCard()">
+<div class="card" (click)="selectCard()">
   <figure [appBackground]="card.status">
     <img [src]="card.item.photoUrl" [alt]="card.item.name" />
-    <figcaption>{{ card.item.name }}</figcaption>
   </figure>
 </div>

@@ -1,13 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnChanges,
-  Input,
-  ChangeDetectionStrategy,
-  Output,
-  EventEmitter,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
 
 import { Card } from '@game/models/card.model';
 import { Item } from '@game/models/item.model';
@@ -16,9 +7,8 @@ import { Item } from '@game/models/item.model';
   selector: 'app-cards',
   templateUrl: './cards.component.html',
   styleUrls: ['./cards.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CardsComponent implements OnInit, OnChanges {
+export class CardsComponent implements OnChanges {
   @Input() items: Item[] = [];
 
   cards: Card[] = [];
@@ -29,13 +19,10 @@ export class CardsComponent implements OnInit, OnChanges {
     this.setCards(changes.items.currentValue);
   }
 
-  ngOnInit(): void {}
-
   private setCards(items: Item[]): void {
     this.cards = items.map((item) => ({
       item,
       status: {
-        failed: false,
         resolved: false,
         incorrect: false,
       },

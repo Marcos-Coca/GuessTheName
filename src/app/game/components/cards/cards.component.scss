@@ -1,0 +1,10 @@
+.card-list {
+  gap: 10px;
+  width: 80%;
+  margin: auto;
+  display: grid;
+  border-radius: 10px;
+  justify-content: center;
+  border: 1px solid black;
+  grid-template-columns: repeat(auto-fit, 100px);
+}

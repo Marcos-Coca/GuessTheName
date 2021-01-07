@@ -26,7 +26,6 @@ export class GameControlComponent implements OnInit, OnChanges, OnDestroy {
 
   fails = 0;
   correct = 0;
-  totalFails = 0;
 
   currentItem?: Item;
   shuffledItems: Item[] = [];
@@ -48,11 +47,7 @@ export class GameControlComponent implements OnInit, OnChanges, OnDestroy {
     this.timer = setInterval(() => {
       this.seconds += 1;
       this.applyChanges();
-    }, 200);
-  }
-
-  stopTimer(): void {
-    clearInterval(this.timer);
+    }, 1000);
   }
 
   onClickCard(): void {
@@ -67,14 +62,9 @@ export class GameControlComponent implements OnInit, OnChanges, OnDestroy {
     const isValid = card.item.id === this.currentItem?.id;
 
     if (isValid) {
-      this.fails = 0;
       this.correct += 1;
       this.setCurrentItem();
       status.resolved = true;
-    } else if (this.fails >= 3) {
-      this.fails += 1;
-      this.totalFails += 1;
-      status.failed = true;
     } else {
       this.fails += 1;
       status.incorrect = true;
@@ -101,6 +91,10 @@ export class GameControlComponent implements OnInit, OnChanges, OnDestroy {
   }
   ngOnDestroy(): void {
     this.stopTimer();
+  }
+
+  stopTimer(): void {
+    clearInterval(this.timer);
   }
 
   private applyChanges(): void {
