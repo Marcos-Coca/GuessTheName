@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from '@app/material/material.module';
 
+import { SharedModule } from '@shared/shared.module';
 import { GameRoutingModule } from './game-routing.module';
 import { GameComponent } from './components/game/game.component';
 import { CardsComponent } from './components/cards/cards.component';
@@ -14,8 +15,6 @@ import { ItemsAdapterService } from './services/items-adapter.service';
 import { NamesComponent } from './components/names/names.component';
 import { GameControlComponent } from './components/game-control/game-control.component';
 import { BackgroundDirective } from './directives/background.directive';
-import { MinuteSecondsPipe } from './pipes/minute-seconds.pipe';
-import { ResultsModalComponent } from './components/results-modal/results-modal.component';
 
 @NgModule({
   declarations: [
@@ -26,10 +25,14 @@ import { ResultsModalComponent } from './components/results-modal/results-modal.
     NamesComponent,
     GameControlComponent,
     BackgroundDirective,
-    MinuteSecondsPipe,
-    ResultsModalComponent,
   ],
-  imports: [CommonModule, GameRoutingModule, HttpClientModule, MaterialModule],
+  imports: [
+    CommonModule,
+    GameRoutingModule,
+    HttpClientModule,
+    MaterialModule,
+    SharedModule,
+  ],
   providers: [ItemsAdapterService, PokemonService],
 })
 export class GameModule {}

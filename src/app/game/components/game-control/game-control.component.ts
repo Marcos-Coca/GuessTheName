@@ -9,6 +9,10 @@ import {
   ChangeDetectorRef,
   ViewRef,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
+import { ResultsModalData } from '@shared/models/results-modal-data.model';
+import { ResultsModalComponent } from '@shared/components/results-modal/results-modal.component';
 
 import { Card } from '@game/models/card.model';
 import { Item } from '@game/models/item.model';
@@ -34,6 +38,7 @@ export class GameControlComponent implements OnInit, OnChanges, OnDestroy {
   timer: any;
 
   constructor(
+    public dialog: MatDialog,
     private cardService: CardService,
     private cdRef: ChangeDetectorRef
   ) {}
@@ -84,8 +89,8 @@ export class GameControlComponent implements OnInit, OnChanges, OnDestroy {
 
   setCurrentItem(): void {
     this.currentItem = this.shuffledItems[this.correct];
-    if (!this.currentItem) {
-      this.stopTimer();
+    if (!this.currentItem && this.correct) {
+      this.endGame();
     }
     this.applyChanges();
   }
@@ -96,7 +101,23 @@ export class GameControlComponent implements OnInit, OnChanges, OnDestroy {
   stopTimer(): void {
     clearInterval(this.timer);
   }
+  endGame(): void {
+    this.stopTimer();
 
+    this.dialog.open(ResultsModalComponent, {
+      width: '350px',
+      height: '500px',
+      data: this.setResultsModalData(),
+    });
+  }
+
+  private setResultsModalData(): ResultsModalData {
+    return {
+      fails: this.fails,
+      total: this.correct,
+      seconds: this.seconds,
+    };
+  }
   private applyChanges(): void {
     if (this.cdRef && !(this.cdRef as ViewRef).destroyed) {
       this.cdRef.detectChanges();
