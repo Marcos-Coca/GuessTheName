@@ -1,5 +1,4 @@
 export interface ResultsModalData {
-  total: number;
-  fails: number;
+  percent: number;
   seconds: number;
 }

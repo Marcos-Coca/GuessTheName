@@ -3,7 +3,6 @@ import {
   Component,
   OnInit,
   OnChanges,
-  OnDestroy,
   Input,
   SimpleChanges,
   ChangeDetectorRef,
@@ -25,17 +24,16 @@ import { CardStatus } from '@game/models/card-status.model';
   styleUrls: ['./game-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GameControlComponent implements OnInit, OnChanges, OnDestroy {
+export class GameControlComponent implements OnInit, OnChanges {
   @Input() items: Item[] = [];
 
   fails = 0;
+  end = false;
   correct = 0;
+  percent = 100;
 
   currentItem?: Item;
   shuffledItems: Item[] = [];
-
-  seconds = 0;
-  timer: any;
 
   constructor(
     public dialog: MatDialog,
@@ -45,20 +43,12 @@ export class GameControlComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     this.onClickCard();
-    this.startTimer();
   }
-
-  startTimer(): void {
-    this.timer = setInterval(() => {
-      this.seconds += 1;
-      this.applyChanges();
-    }, 1000);
-  }
-
   onClickCard(): void {
     this.cardService.card$.subscribe((card: Card) => {
       const cardStatus: CardStatus = this.validateCard(card);
       this.cardService.setUpdatedCardStatus(cardStatus);
+      this.applyChanges();
     });
   }
 
@@ -74,13 +64,23 @@ export class GameControlComponent implements OnInit, OnChanges, OnDestroy {
       this.fails += 1;
       status.incorrect = true;
     }
+    this.updatePercent();
     return status;
   }
 
+  updatePercent(): void {
+    this.percent = Math.round(
+      (this.correct / (this.correct + this.fails)) * 100
+    );
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    this.items = changes.items?.currentValue;
-    this.shuffleItems([...this.items]);
-    this.setCurrentItem();
+    const items = changes.items;
+    if (items.currentValue.length) {
+      this.shuffleItems([...items.currentValue]);
+      this.setCurrentItem();
+      this.applyChanges();
+    }
   }
 
   shuffleItems(items: Item[]): void {
@@ -89,35 +89,23 @@ export class GameControlComponent implements OnInit, OnChanges, OnDestroy {
 
   setCurrentItem(): void {
     this.currentItem = this.shuffledItems[this.correct];
-    if (!this.currentItem && this.correct) {
-      this.endGame();
+    if (this.correct === this.items.length) {
+      this.end = true;
     }
-    this.applyChanges();
-  }
-  ngOnDestroy(): void {
-    this.stopTimer();
   }
 
-  stopTimer(): void {
-    clearInterval(this.timer);
-  }
-  endGame(): void {
-    this.stopTimer();
-
+  openModal(seconds: number): void {
+    const data: ResultsModalData = {
+      seconds,
+      percent: this.percent,
+    };
     this.dialog.open(ResultsModalComponent, {
+      data,
       width: '350px',
       height: '500px',
-      data: this.setResultsModalData(),
     });
   }
 
-  private setResultsModalData(): ResultsModalData {
-    return {
-      fails: this.fails,
-      total: this.correct,
-      seconds: this.seconds,
-    };
-  }
   private applyChanges(): void {
     if (this.cdRef && !(this.cdRef as ViewRef).destroyed) {
       this.cdRef.detectChanges();

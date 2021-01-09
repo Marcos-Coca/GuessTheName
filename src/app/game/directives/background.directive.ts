@@ -22,7 +22,6 @@ export class BackgroundDirective implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const bgColor = this.selectBackground();
     this.setBgColor(bgColor);
-    console.log(changes);
   }
 
   ngOnInit(): void {}
@@ -40,7 +39,6 @@ export class BackgroundDirective implements OnInit, OnChanges {
   }
 
   setBgColor(color: string): void {
-    console.log(color);
     this.rerender.setStyle(
       this.elementRef.nativeElement,
       'backgroundColor',

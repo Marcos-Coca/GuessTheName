@@ -1,6 +1,11 @@
 <div>
   <h3>
-    <span>{{ seconds | minuteSeconds }} </span>
+    <app-timer
+      [end]="end"
+      [running]="!!currentItem"
+      (stop)="openModal($event)"
+    ></app-timer>
+    <span> {{ percent }}% </span>
     <span *ngIf="currentItem">Click on {{ currentItem.name }}</span>
   </h3>
 </div>
